@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    telegram_id BIGINT UNIQUE NOT NULL,
+    username TEXT
+);
+
+CREATE TABLE IF NOT EXISTS vacancies (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    url TEXT UNIQUE NOT NULL
+);
