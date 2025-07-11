@@ -6,8 +6,15 @@ import (
 	"log"
 	"os"
 	"time"
+	"vacantr/internal/adapter/parser"
+	"vacantr/internal/adapter/parser/habr"
 	"vacantr/internal/adapter/parser/hh"
+	"vacantr/internal/usecase"
 )
+
+type Handler struct {
+	Vacancy *usecase.VacancyUseCase
+}
 
 func NewBot() *telebot.Bot {
 	pref := telebot.Settings{
@@ -20,12 +27,19 @@ func NewBot() *telebot.Bot {
 		log.Fatalf("failed to start bot: %s", err)
 	}
 
+	handler := Handler{
+		Vacancy: usecase.NewVacancyUseCase([]parser.VacancyProvider{
+			hh.NewHHParser(),
+			habr.NewHabrParser(),
+		}),
+	}
+
 	bot.Handle("/start", func(c telebot.Context) error {
 		return c.Send("Добро пожаловать! Отправь /vacancies, чтобы получить вакансии.")
 	})
 
 	bot.Handle("/vacancies", func(c telebot.Context) error {
-		vacancies := hh.FetchVacanciesMock()
+		vacancies := handler.Vacancy.GetTopVacancies()
 		if err != nil {
 			return c.Send("Error get vacancies")
 		}
@@ -35,7 +49,7 @@ func NewBot() *telebot.Bot {
 		}
 
 		for _, v := range vacancies {
-			c.Send(fmt.Sprintf("%s\n%s", v.Name, v.URL))
+			c.Send(fmt.Sprintf("%s\n%s", v.Title, v.URL))
 		}
 
 		return nil

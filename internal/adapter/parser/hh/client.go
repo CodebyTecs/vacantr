@@ -1,17 +1,17 @@
 package hh
 
-type Vacancy struct {
-	Name string `json:"name"`
-	URL  string `json:"url"`
+import "vacantr/internal/core"
+
+type HHParser struct{}
+
+func NewHHParser() *HHParser {
+	return &HHParser{}
 }
 
-type hhResponse struct {
-	Items []Vacancy `json:"items"`
-}
-
-func FetchVacanciesMock() []Vacancy {
-	return []Vacancy{
-		{"Golang Developer", "https://hh.ru/vacancy/123"},
-		{"Senior Go Engineer", "https://hh.ru/vacancy/456"},
+func (p *HHParser) Fetch() []core.Vacancy {
+	v := []core.Vacancy{
+		{Title: "Golang Dev", URL: "https://hh.ru/vacancy/123"},
+		{Title: "Senior Go", URL: "https://hh.ru/vacancy/456"},
 	}
+	return v
 }

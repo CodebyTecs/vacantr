@@ -5,12 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="447fd2cf-388f-4340-9a8c-1df14225c33c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/internal/adapter/parser/hh/client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/adapter/parser/habr/client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/adapter/parser/parser.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/adapter/parser/hh/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/adapter/parser/hh/client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/adapter/telegram/telegram.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/adapter/telegram/telegram.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/core/vacancy.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/core/vacancy.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/usecase/vacancy.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/usecase/vacancy.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
