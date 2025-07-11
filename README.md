@@ -1,0 +1,1 @@
+Telegram bot for searching go dev vacancies

@@ -1,11 +1,12 @@
 package telegram
 
 import (
+	"fmt"
+	"gopkg.in/telebot.v3"
 	"log"
 	"os"
-
-	"gopkg.in/telebot.v3"
 	"time"
+	"vacantr/internal/adapter/parser/hh"
 )
 
 func NewBot() *telebot.Bot {
@@ -24,8 +25,20 @@ func NewBot() *telebot.Bot {
 	})
 
 	bot.Handle("/vacancies", func(c telebot.Context) error {
-		// пока заглушка
-		return c.Send("Здесь будут вакансии.")
+		vacancies := hh.FetchVacanciesMock()
+		if err != nil {
+			return c.Send("Error get vacancies")
+		}
+
+		if len(vacancies) == 0 {
+			return c.Send("No vacancies")
+		}
+
+		for _, v := range vacancies {
+			c.Send(fmt.Sprintf("%s\n%s", v.Name, v.URL))
+		}
+
+		return nil
 	})
 
 	return bot
