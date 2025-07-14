@@ -12,3 +12,14 @@ func SaveUser(db *sqlx.DB, u core.User) {
 		log.Println("insert user error:", err)
 	}
 }
+
+func GetSubscribers(db *sqlx.DB) []int64 {
+	var ids []int64
+
+	err := db.Select(&ids, `SELECT user_id FROM subscriptions`)
+	if err != nil {
+		log.Println("get subscribers error:", err)
+	}
+
+	return ids
+}

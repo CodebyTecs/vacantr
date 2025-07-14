@@ -25,11 +25,11 @@ func main() {
 		habr.NewHabrParser(),
 	})
 
-	vacancyUC.GetTopVacancies()
-	usecase.StartBackgroundParser(vacancyUC)
-
 	handler := telegram.Handler{Vacancy: vacancyUC}
-
 	bot := telegram.NewBot(handler)
+
+	vacancyUC.GetTopVacancies(bot, vacancyUC)
+	usecase.StartBackgroundParser(bot, vacancyUC)
+
 	bot.Start()
 }

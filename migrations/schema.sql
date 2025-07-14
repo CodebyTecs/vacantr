@@ -22,3 +22,7 @@ CREATE TABLE user_filters (
     user_id BIGINT PRIMARY KEY,
     keywords TEXT[]
 );
+
+CREATE TABLE subscriptions (
+    user_id BIGINT PRIMARY KEY
+);

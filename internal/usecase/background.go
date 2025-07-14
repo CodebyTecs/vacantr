@@ -1,13 +1,16 @@
 package usecase
 
-import "time"
+import (
+	"gopkg.in/telebot.v3"
+	"time"
+)
 
-func StartBackgroundParser(vacancyUC *VacancyUseCase) {
+func StartBackgroundParser(bot *telebot.Bot, vacancyUC *VacancyUseCase) {
 	ticker := time.NewTicker(5 * time.Minute)
 	go func() {
 		for {
 			<-ticker.C
-			vacancyUC.GetTopVacancies()
+			vacancyUC.GetTopVacancies(bot, vacancyUC)
 		}
 	}()
 }

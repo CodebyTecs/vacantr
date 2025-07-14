@@ -1,7 +1,9 @@
 package usecase
 
 import (
+	"fmt"
 	"github.com/jmoiron/sqlx"
+	"gopkg.in/telebot.v3"
 	"vacantr/internal/adapter/parser"
 	"vacantr/internal/adapter/storage/postgres"
 	"vacantr/internal/core"
@@ -28,7 +30,7 @@ func (v *VacancyUseCase) SaveFilters(userID int64, filters []string) {
 	postgres.SaveUserFilters(v.db, userID, filters)
 }
 
-func (v *VacancyUseCase) GetTopVacancies() []core.Vacancy {
+func (v *VacancyUseCase) GetTopVacancies(bot *telebot.Bot, vacancyUC *VacancyUseCase) []core.Vacancy {
 	var result []core.Vacancy
 
 	for _, provider := range v.providers {
@@ -38,6 +40,17 @@ func (v *VacancyUseCase) GetTopVacancies() []core.Vacancy {
 				postgres.SaveVacancy(v.db, vacancy)
 				result = append(result, vacancy)
 			}
+		}
+	}
+
+	subscribers := postgres.GetSubscribers(vacancyUC.db)
+
+	for _, userID := range subscribers {
+		vacancies := postgres.GetUnseenVacancies(vacancyUC.db, userID)
+
+		for _, vac := range vacancies {
+			bot.Send(&telebot.User{ID: userID}, fmt.Sprintf("%s\n%s", vac.Title, vac.URL))
+			postgres.MarkVacancySeen(vacancyUC.db, userID, vac.ID)
 		}
 	}
 

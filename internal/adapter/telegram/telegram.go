@@ -62,5 +62,36 @@ func NewBot(handler Handler) *telebot.Bot {
 		return c.Send("filters saved")
 	})
 
+	bot.Handle("/subscribe", func(c telebot.Context) error {
+		db := handler.Vacancy.DB()
+
+		_, err := db.Exec(`
+			INSERT INTO subscriptions (user_id)
+			VALUES ($1)
+			ON CONFLICT DO NOTHING
+			`, c.Sender().ID)
+
+		if err != nil {
+			return c.Send("Subscribe error")
+		}
+
+		return c.Send("Subscribe on")
+	})
+
+	bot.Handle("/unsubscribe", func(c telebot.Context) error {
+		db := handler.Vacancy.DB()
+
+		_, err := db.Exec(`
+			DELETE FROM subscriptions
+			WHERE user_id = $1
+			`, c.Sender().ID)
+
+		if err != nil {
+			return c.Send("Unsubscribe error")
+		}
+
+		return c.Send("Subscribe off")
+	})
+
 	return bot
 }
