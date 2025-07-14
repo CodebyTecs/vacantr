@@ -12,3 +12,44 @@ func SaveVacancy(db *sqlx.DB, u core.Vacancy) {
 		log.Println("insert vacancy error:", err)
 	}
 }
+
+func VacancyExists(db *sqlx.DB, url string) bool {
+	var exists bool
+	err := db.Get(&exists, "SELECT EXISTS(SELECT 1 FROM vacancies WHERE url = $1)", url)
+	if err != nil {
+		log.Println("vacancy exists error:", err)
+		return false
+	}
+	return exists
+}
+
+func GetUnseenVacancies(db *sqlx.DB, userID int64) []core.Vacancy {
+	var vacancies []core.Vacancy
+
+	query := `
+		SELECT id, title, url
+		FROM vacancies
+		WHERE id NOT IN (
+		    SELECT vacancy_id FROM user_vacancies WHERE user_id = $1
+		)
+		LIMIT 10
+	`
+
+	err := db.Select(&vacancies, query, userID)
+	if err != nil {
+		log.Println("getUnseenVacancies error:", err)
+	}
+	return vacancies
+}
+
+func MarkVacancySeen(db *sqlx.DB, userID int64, vacancyID int64) {
+	_, err := db.Exec(`
+		INSERT INTO user_vacancies (user_id, vacancy_id)
+		VALUES ($1, $2)
+		ON CONFLICT DO NOTHING
+		`, userID, vacancyID)
+
+	if err != nil {
+		log.Println("mark vacancy seen error", err)
+	}
+}

@@ -5,15 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="447fd2cf-388f-4340-9a8c-1df14225c33c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/internal/adapter/storage/postgres/db.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/adapter/storage/postgres/user.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/adapter/storage/postgres/vacancy.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/migrations/schema.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/usecase/background.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/env.example" beforeDir="false" afterPath="$PROJECT_DIR$/env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/vacantr/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/vacantr/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/adapter/storage/postgres/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/adapter/storage/postgres/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/adapter/storage/postgres/vacancy.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/adapter/storage/postgres/vacancy.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/adapter/telegram/telegram.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/adapter/telegram/telegram.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/core/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/core/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/core/vacancy.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/core/vacancy.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/usecase/vacancy.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/usecase/vacancy.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/schema.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,29 +40,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultGoTemplateProperty": "Go File",
-    "Go Build.go build vacantr/cmd/vacantr.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.GoLinterPluginOnboarding": "true",
-    "RunOnceActivity.GoLinterPluginStorageMigration": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "git-widget-placeholder": "main",
-    "go.import.settings.migrated": "true",
-    "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "/Users/tecs/Documents/vacantr",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;Go Build.go build vacantr/cmd/vacantr.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.GoLinterPluginOnboarding&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.GoLinterPluginStorageMigration&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/tecs/Documents/vacantr&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="go build vacantr/cmd/vacantr" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="vacantr" />

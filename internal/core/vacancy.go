@@ -1,6 +1,7 @@
 package core
 
 type Vacancy struct {
-	Title string
-	URL   string
+	ID    int64  `db:"id"`
+	Title string `db:"title"`
+	URL   string `db:"url"`
 }

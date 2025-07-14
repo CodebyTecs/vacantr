@@ -3,7 +3,12 @@ package main
 import (
 	"github.com/joho/godotenv"
 	"log"
+	"vacantr/internal/adapter/parser"
+	"vacantr/internal/adapter/parser/habr"
+	"vacantr/internal/adapter/parser/hh"
+	"vacantr/internal/adapter/storage/postgres"
 	"vacantr/internal/adapter/telegram"
+	"vacantr/internal/usecase"
 )
 
 func init() {
@@ -13,7 +18,17 @@ func init() {
 }
 
 func main() {
-	bot := telegram.NewBot()
-	log.Println("Bot started")
+	db := postgres.Connect()
+
+	vacancyUC := usecase.NewVacancyUseCase(db, []parser.VacancyProvider{
+		hh.NewHHParser(),
+		habr.NewHabrParser(),
+	})
+
+	usecase.StartBackgroundParser(vacancyUC)
+
+	handler := telegram.Handler{Vacancy: vacancyUC}
+
+	bot := telegram.NewBot(handler)
 	bot.Start()
 }

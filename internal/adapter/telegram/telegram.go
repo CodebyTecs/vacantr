@@ -6,9 +6,8 @@ import (
 	"log"
 	"os"
 	"time"
-	"vacantr/internal/adapter/parser"
-	"vacantr/internal/adapter/parser/habr"
-	"vacantr/internal/adapter/parser/hh"
+	"vacantr/internal/adapter/storage/postgres"
+	"vacantr/internal/core"
 	"vacantr/internal/usecase"
 )
 
@@ -16,7 +15,7 @@ type Handler struct {
 	Vacancy *usecase.VacancyUseCase
 }
 
-func NewBot() *telebot.Bot {
+func NewBot(handler Handler) *telebot.Bot {
 	pref := telebot.Settings{
 		Token:  os.Getenv("TELEGRAM_TOKEN"),
 		Poller: &telebot.LongPoller{Timeout: 10 * time.Second},
@@ -27,22 +26,19 @@ func NewBot() *telebot.Bot {
 		log.Fatalf("failed to start bot: %s", err)
 	}
 
-	handler := Handler{
-		Vacancy: usecase.NewVacancyUseCase([]parser.VacancyProvider{
-			hh.NewHHParser(),
-			habr.NewHabrParser(),
-		}),
-	}
-
 	bot.Handle("/start", func(c telebot.Context) error {
-		return c.Send("Добро пожаловать! Отправь /vacancies, чтобы получить вакансии.")
+		handler.Vacancy.SaveUser(core.User{
+			TelegramID: c.Sender().ID,
+			Username:   c.Sender().Username,
+		})
+		return c.Send("Добро пожаловать! Вакансии - /vacancies")
 	})
 
 	bot.Handle("/vacancies", func(c telebot.Context) error {
-		vacancies := handler.Vacancy.GetTopVacancies()
-		if err != nil {
-			return c.Send("Error get vacancies")
-		}
+		userID := c.Sender().ID
+		db := handler.Vacancy.DB()
+
+		vacancies := postgres.GetUnseenVacancies(db, userID)
 
 		if len(vacancies) == 0 {
 			return c.Send("No vacancies")
@@ -50,6 +46,7 @@ func NewBot() *telebot.Bot {
 
 		for _, v := range vacancies {
 			c.Send(fmt.Sprintf("%s\n%s", v.Title, v.URL))
+			postgres.MarkVacancySeen(db, userID, v.ID)
 		}
 
 		return nil
