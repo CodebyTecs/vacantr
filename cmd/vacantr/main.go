@@ -25,6 +25,7 @@ func main() {
 		habr.NewHabrParser(),
 	})
 
+	vacancyUC.GetTopVacancies()
 	usecase.StartBackgroundParser(vacancyUC)
 
 	handler := telegram.Handler{Vacancy: vacancyUC}

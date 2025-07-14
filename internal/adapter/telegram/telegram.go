@@ -52,5 +52,15 @@ func NewBot(handler Handler) *telebot.Bot {
 		return nil
 	})
 
+	bot.Handle("/setfilter", func(c telebot.Context) error {
+		args := c.Args()
+		if len(args) == 0 {
+			return c.Send("Пример: /setfilter golang junior")
+		}
+
+		handler.Vacancy.SaveFilters(c.Sender().ID, args)
+		return c.Send("filters saved")
+	})
+
 	return bot
 }

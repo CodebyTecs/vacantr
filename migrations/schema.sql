@@ -17,3 +17,8 @@ CREATE TABLE user_vacancies (
     FOREIGN KEY (user_id) REFERENCES users(telegram_id),
     FOREIGN KEY (vacancy_id) REFERENCES vacancies(id)
 );
+
+CREATE TABLE user_filters (
+    user_id BIGINT PRIMARY KEY,
+    keywords TEXT[]
+);

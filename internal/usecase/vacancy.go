@@ -24,6 +24,10 @@ func (v *VacancyUseCase) DB() *sqlx.DB {
 	return v.db
 }
 
+func (v *VacancyUseCase) SaveFilters(userID int64, filters []string) {
+	postgres.SaveUserFilters(v.db, userID, filters)
+}
+
 func (v *VacancyUseCase) GetTopVacancies() []core.Vacancy {
 	var result []core.Vacancy
 
