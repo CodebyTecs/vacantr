@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/joho/godotenv"
 	"log"
+	"vacantr/internal/adapter/cache"
 	"vacantr/internal/adapter/parser"
 	"vacantr/internal/adapter/parser/habr"
 	"vacantr/internal/adapter/parser/hh"
@@ -19,6 +20,7 @@ func init() {
 
 func main() {
 	db := postgres.Connect()
+	cache.InitRedis()
 
 	vacancyUC := usecase.NewVacancyUseCase(db, []parser.VacancyProvider{
 		hh.NewHHParser(),

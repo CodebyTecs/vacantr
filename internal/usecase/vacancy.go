@@ -31,6 +31,11 @@ func (v *VacancyUseCase) SaveFilters(userID int64, filters []string) {
 }
 
 func (v *VacancyUseCase) GetTopVacancies(bot *telebot.Bot, vacancyUC *VacancyUseCase) []core.Vacancy {
+	cached := GetCachedVacancies()
+	if len(cached) > 0 {
+		return cached
+	}
+
 	var result []core.Vacancy
 
 	for _, provider := range v.providers {
@@ -42,6 +47,8 @@ func (v *VacancyUseCase) GetTopVacancies(bot *telebot.Bot, vacancyUC *VacancyUse
 			}
 		}
 	}
+
+	CacheVacancies(result)
 
 	subscribers := postgres.GetSubscribers(vacancyUC.db)
 
