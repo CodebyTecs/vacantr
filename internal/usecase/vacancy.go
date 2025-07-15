@@ -1,9 +1,11 @@
 package usecase
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/jmoiron/sqlx"
 	"gopkg.in/telebot.v3"
+	"vacantr/internal/adapter/kafka"
 	"vacantr/internal/adapter/parser"
 	"vacantr/internal/adapter/storage/postgres"
 	"vacantr/internal/core"
@@ -43,6 +45,8 @@ func (v *VacancyUseCase) GetTopVacancies(bot *telebot.Bot, vacancyUC *VacancyUse
 		for _, vacancy := range vacancies {
 			if !postgres.VacancyExists(v.db, vacancy.URL) {
 				postgres.SaveVacancy(v.db, vacancy)
+				data, _ := json.Marshal(vacancy)
+				kafka.ProduceMessage(data)
 				result = append(result, vacancy)
 			}
 		}

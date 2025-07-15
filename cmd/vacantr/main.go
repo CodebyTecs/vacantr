@@ -4,6 +4,7 @@ import (
 	"github.com/joho/godotenv"
 	"log"
 	"vacantr/internal/adapter/cache"
+	"vacantr/internal/adapter/kafka"
 	"vacantr/internal/adapter/parser"
 	"vacantr/internal/adapter/parser/habr"
 	"vacantr/internal/adapter/parser/hh"
@@ -19,8 +20,11 @@ func init() {
 }
 
 func main() {
+	_ = godotenv.Load()
+
 	db := postgres.Connect()
 	cache.InitRedis()
+	kafka.InitKafkaWriter()
 
 	vacancyUC := usecase.NewVacancyUseCase(db, []parser.VacancyProvider{
 		hh.NewHHParser(),
