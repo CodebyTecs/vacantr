@@ -1,6 +1,6 @@
 # Vacantr
 
-Telegram bot for searching vacancies: save, filter and push notifications.
+Telegram bot for tracking job vacancies: save, filter, and receive push notifications in real-time.
 
 ## Stack
 
