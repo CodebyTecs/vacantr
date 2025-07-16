@@ -41,17 +41,17 @@ docker compose up --build
 
 ## ENV
     
-**TELEGRAM_TOKEN** - Telegram Bot API token
-**DB_DSN** - Postgres DSN
-**REDIS_ADDR** - Redis connection string
+**TELEGRAM_TOKEN** - Telegram Bot API token\n
+**DB_DSN** - Postgres DSN\n
+**REDIS_ADDR** - Redis connection string\n
 **KAFKA_ADDR** - Kafka broker address
 
 ## Bot's command
 
-**/start** - Initialize the bot
-**/vacancies** - Show the latest vacancies
-**/setfilter** - Set filter keywords (e.g., golang, middle)
-**/subscribe** - Enable automatic vacancy notifications
+**/start** - Initialize the bot\n
+**/vacancies** - Show the latest vacancies\n
+**/setfilter** - Set filter keywords (e.g., golang, middle)\n
+**/subscribe** - Enable automatic vacancy notifications\n
 **/unsubscribe** - Stop receiving notifications
 
 ## Migrations
