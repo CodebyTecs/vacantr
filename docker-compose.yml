@@ -1,4 +1,23 @@
+version: "3.8"
+
 services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: vacantr
+      POSTGRES_USER: tecs
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./migrations/schema.sql:/migrations/schema.sql
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
     environment:
@@ -13,7 +32,54 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    depends_on:
+      - zookeeper
+
+  kafka-init:
+    image: confluentinc/cp-kafka:7.5.0
+    depends_on:
+      - kafka
+    entrypoint: [ "/bin/sh", "-c" ]
+    command:
+      - |
+        kafka-topics --create --topic vacancy_created \
+          --bootstrap-server kafka:9092 \
+          --replication-factor 1 --partitions 1 || true
+
+  vacantr:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    depends_on:
+      - postgres
+      - redis
+      - kafka
+    environment:
+      TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
+      DB_DSN: host=postgres port=5432 user=tecs dbname=vacantr password=secret sslmode=disable
+      REDIS_ADDR: redis:6379
+      KAFKA_ADDR: kafka:9092
+    restart: always
+    ports:
+      - "8080:8080"
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    depends_on:
+      - kafka
+      - postgres
+    environment:
+      KAFKA_ADDR: kafka:9092
+      DB_DSN: host=postgres port=5432 user=tecs password=your_password dbname=vacantr sslmode=disable
+    command: [ "./worker" ]
+
+volumes:
+  pgdata:
 
